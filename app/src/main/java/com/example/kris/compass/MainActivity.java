@@ -5,7 +5,6 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -15,12 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-
 public class MainActivity extends Activity {
 
-    private int azimuthFrom = 0;
-    private int azimuthTo = 0;
     private SensorManager sensorManager = null;
     private Sensor sensor;
     private ImageView compassImage;
@@ -44,7 +39,6 @@ public class MainActivity extends Activity {
         compassImage = (ImageView)findViewById(R.id.compass_back);
 
         setupAzimuth(); //all actions needed to receive azimuth data
-        setupLocation(); //all actions needed to receive location data
     }
 
     private void setupAzimuth() {
@@ -65,7 +59,7 @@ public class MainActivity extends Activity {
                 @Override
                 public void onAzimuth(float azimuthFrom, float azimuthTo) {
                     compass.rotate(azimuthFrom, azimuthTo);
-                    
+
                 }
             });
 
@@ -90,7 +84,7 @@ public class MainActivity extends Activity {
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         } catch (Exception ex) {
         }
-        if(gps_enabled==false && network_enabled==false){
+        if(gps_enabled!=false && network_enabled!=false){
             Toast.makeText(this, "Location is not enabled",
                     Toast.LENGTH_LONG).show();
         }
@@ -117,11 +111,8 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         locManager.removeUpdates(locListener);
-        /*if (sensor != null) {
-            sensorManager.unregisterListener(mySensorEventListener);
-        }*/
+
     }
 
     @Override
@@ -133,8 +124,14 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onPause() {
-        super.onPause();
         locManager.removeUpdates(locListener);
+        locListener = null;
+        super.onPause();
+
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 
     @Override
