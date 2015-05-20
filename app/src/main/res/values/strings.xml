@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Compass</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="compass_background">Compass background</string>
+    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude</string>
+
+</resources>
