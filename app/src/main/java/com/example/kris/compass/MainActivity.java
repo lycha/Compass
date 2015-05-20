@@ -110,8 +110,9 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         locManager.removeUpdates(locListener);
+        locListener = null;
+        super.onDestroy();
 
     }
 
@@ -124,8 +125,6 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onPause() {
-        locManager.removeUpdates(locListener);
-        locListener = null;
         super.onPause();
 
     }
