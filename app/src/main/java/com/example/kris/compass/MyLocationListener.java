@@ -2,15 +2,12 @@ package com.example.kris.compass;
 
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 
 /**
  * Created by kris on 20.05.15.
  */
 class MyLocationListener implements LocationListener {
-    private double lat;
-    private double longi;
     private OnLocationListener mLocationListener;
 
     public MyLocationListener(OnLocationListener locationListener) {
@@ -24,9 +21,7 @@ class MyLocationListener implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         if (location != null) {
-            lat = location.getLongitude();
-            longi = location.getLatitude();
-            mLocationListener.onLocation(lat,longi);
+            mLocationListener.onLocation(location);
         }
     }
 
@@ -50,6 +45,6 @@ class MyLocationListener implements LocationListener {
 
     public interface OnLocationListener {
 
-        void onLocation(double lat, double longi);
+        void onLocation(Location location);
     }
 }

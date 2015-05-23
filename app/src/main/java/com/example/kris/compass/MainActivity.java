@@ -5,10 +5,10 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-    private SensorManager sensorManager = null;
+    private SensorManager sensorManager;
     private Sensor sensor;
     private ImageView compassImage;
     private SensorEventListener mySensorEventListener;
@@ -27,6 +27,7 @@ public class MainActivity extends Activity {
     private LocationListener locListener;
     private boolean gps_enabled = false;
     private boolean network_enabled = false;
+    private TextView mSpeedText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class MainActivity extends Activity {
         //setup all views in activity
         mLatitudeText = (TextView) findViewById(R.id.latitudeTextView);
         mLongitudeText = (TextView) findViewById(R.id.longitudeTextView);
+        mSpeedText = (TextView) findViewById(R.id.speedtextView);
         compassImage = (ImageView)findViewById(R.id.compass_back);
 
         setupAzimuth(); //all actions needed to receive azimuth data
@@ -51,8 +53,7 @@ public class MainActivity extends Activity {
 
         if (sensor != null) {
             //register listener
-            sensorManager.registerListener(mySensorEventListener, sensor,
-                    SensorManager.SENSOR_DELAY_UI);
+
 
             //initialize listener and callback with obtained data
             mySensorEventListener = new MyAzimuthSensorListener(new MyAzimuthSensorListener.OnAzimuthListener() {
@@ -62,6 +63,8 @@ public class MainActivity extends Activity {
 
                 }
             });
+            sensorManager.registerListener(mySensorEventListener, sensor,
+                    SensorManager.SENSOR_DELAY_UI);
 
         } else {
             Toast.makeText(this, "ORIENTATION Sensor not found",
@@ -78,13 +81,17 @@ public class MainActivity extends Activity {
             gps_enabled = locManager
                     .isProviderEnabled(LocationManager.GPS_PROVIDER);
         } catch (Exception ex) {
+            Toast.makeText(this, "Exception "+ex,
+                    Toast.LENGTH_LONG).show();
         }
         try {
             network_enabled = locManager
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         } catch (Exception ex) {
+            Toast.makeText(this, "Exception "+ex,
+                    Toast.LENGTH_LONG).show();
         }
-        if(gps_enabled!=false && network_enabled!=false){
+        if(!gps_enabled && !network_enabled){
             Toast.makeText(this, "Location is not enabled",
                     Toast.LENGTH_LONG).show();
         }
@@ -92,9 +99,12 @@ public class MainActivity extends Activity {
         //initialize listener and callback with obtained data
         locListener = new MyLocationListener(new MyLocationListener.OnLocationListener() {
             @Override
-            public void onLocation(double lat, double longi) {
-                mLatitudeText.setText(String.format("%.5f", lat));
-                mLongitudeText.setText(String.format("%.5f", longi));
+            public void onLocation(Location location) {
+                mLatitudeText.setText(String.format("%.5f", location.getLatitude()));
+                mLongitudeText.setText(String.format("%.5f", location.getLongitude()));
+                mSpeedText.setText(location.getSpeed()+" km/h");
+                /*Toast.makeText(getApplicationContext(), "Provider: "+location.getProvider()+" Accuracy: "+location.getAccuracy(),
+                        Toast.LENGTH_LONG).show();*/
             }
         });
 

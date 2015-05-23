@@ -67,5 +67,15 @@
         android:layout_alignParentEnd="true"
         style="@style/CompassTheme.NoActionBar.TextView"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0 km/h"
+        android:id="@+id/speedtextView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        style="@style/CompassTheme.NoActionBar.TextView" />
+
 
 </RelativeLayout>
