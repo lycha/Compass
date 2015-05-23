@@ -1,4 +1,4 @@
-package com.example.kris.compass;
+package com.kris.compass;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;

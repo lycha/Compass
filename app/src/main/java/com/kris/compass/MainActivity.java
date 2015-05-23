@@ -1,4 +1,4 @@
-package com.example.kris.compass;
+package com.kris.compass;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,6 +13,8 @@ import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.kris.compass.R;
 
 public class MainActivity extends Activity {
 

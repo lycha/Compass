@@ -1,4 +1,4 @@
-package com.example.kris.compass;
+package com.kris.compass;
 
 import android.location.Location;
 import android.location.LocationListener;
