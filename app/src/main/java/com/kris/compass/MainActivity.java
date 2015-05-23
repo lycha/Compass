@@ -14,8 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.kris.compass.R;
-
 public class MainActivity extends Activity {
 
     private SensorManager sensorManager;
